@@ -68,14 +68,14 @@ end
 ---@return Vector3f?
 local function get_target_pos(quest_accept_ui)
   ---@class app.cGUIQuestOrderParam : REManagedObject
-  ---@field ActiveQuestData app.cActiveQuestData
+  ---@field QuestViewData app.cGUIQuestViewData
 
-  ---@class app.cActiveQuestData : REManagedObject
-  ---@field getStage fun(): app.FieldDef.STAGE
-  ---@field getTargetEmSetAreaNo fun(): { get_element: fun(_, index: integer): { m_value: number } }
-  local active_quest_data = quest_accept_ui:get_QuestOrderParam().ActiveQuestData
+  ---@class app.cGUIQuestViewData : REManagedObject
+  ---@field get_Stage fun(): app.FieldDef.STAGE
+  ---@field get_TargetEmStartArea fun(): { get_element: fun(_, index: integer): { m_value: number } }
+  local quest_view_data = quest_accept_ui:get_QuestOrderParam().QuestViewData
 
-  local target_em_start_areas = active_quest_data:getTargetEmSetAreaNo()
+  local target_em_start_areas = quest_view_data:get_TargetEmStartArea()
   local target_em_start_area = target_em_start_areas:get_element(0).m_value
 
   if target_em_start_area == nil then
@@ -90,7 +90,7 @@ local function get_target_pos(quest_accept_ui)
   local map_stage_draw_data = map_controller._MapStageDrawData
 
   ---@alias app.FieldDef.STAGE number
-  local stage = active_quest_data:getStage()
+  local stage = quest_view_data:get_Stage()
 
   ---@class app.user_data.MapStageDrawData.cDrawData : REManagedObject
   ---@field _AreaIconPosList System.Collections.Generic.List<app.user_data.MapStageDrawData.cAreaIconData>
