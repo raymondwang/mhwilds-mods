@@ -72,7 +72,7 @@ local function get_target_pos(quest_accept_ui)
 
   ---@class app.cGUIQuestViewData : REManagedObject
   ---@field get_Stage fun(): app.FieldDef.STAGE
-  ---@field get_TargetEmStartArea fun(): { get_element: fun(_, index: integer): { m_value: number } }
+  ---@field get_TargetEmStartArea fun(): { m_value: integer }[]
   local quest_view_data = quest_accept_ui:get_QuestOrderParam().QuestViewData
 
   local target_em_start_areas = quest_view_data:get_TargetEmStartArea()
@@ -220,7 +220,7 @@ local function on_pre_init_start_point(args)
     ---@class app.GUI050001 : REManagedObject
     ---@field _StartPointList app.GUI050001_StartPointList
     ---@field get_CurrentStartPointList fun(): System.Collections.Generic.List<app.cStartPointInfo>
-    ---@field get_QuestOrderParam fun(): app.cGUIQuestOrderParam
+    ---@field get_QuestOrderParam fun(): { QuestViewData: app.cGUIQuestViewData }
     hook_storage_singleton.quest_accept_ui = sdk.to_managed_object(args[2])
   end
 
