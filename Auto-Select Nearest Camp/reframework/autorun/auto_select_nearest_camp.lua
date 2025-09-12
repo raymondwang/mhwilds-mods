@@ -149,35 +149,28 @@ local function get_index_of_nearest_start_point(target_pos, start_point_list, st
       local beacon_area_num = field_area_info:get_MapAreaNumSafety()
       local beacon_floor_num = field_area_info:get_MapFloorNumSafety()
       local d2 = get_distance:call(nil, beacon_pos, target_pos)
-      if same_area_nearest_index == nil then
-        if beacon_area_num == target_area_num then
-          if same_area_shortest_distance == nil or d2 < same_area_shortest_distance then
-            same_area_shortest_distance = d2
-            same_area_nearest_index = index
-          end
-        elseif beacon_floor_num == target_floor_num then
-          if same_floor_shortest_distance == nil or d2 < same_floor_shortest_distance then
-            same_floor_shortest_distance = d2
-            same_floor_nearest_index = index
-          end
-        elseif diff_floor_shortest_distance == nil or d2 < diff_floor_shortest_distance then
-          diff_floor_shortest_distance = d2
-          diff_floor_nearest_index = index
-        end
-      elseif beacon_area_num == target_area_num then
-        if d2 < same_area_shortest_distance then
+      if beacon_area_num == target_area_num then
+        if same_area_nearest_index == nil or d2 < same_area_shortest_distance then
           same_area_shortest_distance = d2
           same_area_nearest_index = index
         end
+      elseif beacon_floor_num == target_floor_num then
+        if same_floor_nearest_index == nil or d2 < same_floor_shortest_distance then
+          same_floor_shortest_distance = d2
+          same_floor_nearest_index = index
+        end
+      elseif diff_floor_nearest_index == nil or d2 < diff_floor_shortest_distance then
+        diff_floor_shortest_distance = d2
+        diff_floor_nearest_index = index
       end
 
       debugPos('start point at index ' .. tostring(index), beacon_pos, d2)
     end
   end
 
-  if same_area_nearest_index ~= nil and same_area_nearest_index > 0 then
+  if same_area_nearest_index ~= nil then
     return same_area_nearest_index
-  elseif same_floor_shortest_distance ~= nil and diff_floor_shortest_distance ~= nil and diff_floor_shortest_distance < same_floor_shortest_distance * 0.5 then
+  elseif same_floor_shortest_distance ~= nil and diff_floor_shortest_distance ~= nil and diff_floor_shortest_distance < (same_floor_shortest_distance * 0.5) then
     return diff_floor_nearest_index
   elseif same_floor_nearest_index ~= nil then
     return same_floor_nearest_index
